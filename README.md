@@ -9,3 +9,22 @@ I'm taking guidance from these and other sources to implement IdentityServer4 wi
 
 - <https://www.scottbrady91.com/identity-server/getting-started-with-identityserver-4>
 - <https://social.technet.microsoft.com/wiki/contents/articles/37169.net-core-secure-your-web-applications-using-identityserver-4.aspx>
+
+## Appendix
+
+### How to manually set Kestrel's HTTPS configuration with a development certificate file
+
+1. Export ASP.NET Core's development certificate (that gets automatically created when you install .NET)
+to `%APPDATA%\ASP.NET\https\AuthorizationServer.pfx` (notice the filename is the same as your executing assembly.
+Choose the option to also export the private key using the PFX file format and take note of the password.
+1. Add the following setting to your `appsettings.json` file. The password must match the password used for the certificate in the previous step.
+
+```json
+  "Kestrel": {
+    "Certificates": {
+      "Development": {
+        "Password": "12345"
+      }
+    }
+  }
+```
