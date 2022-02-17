@@ -5,24 +5,35 @@ Authorization Server using IdentityServer4 4.3.1 on ASP.NET Core 3.1.
 This is my attempt at improving my understanding of modern authentication, that is, OpenID Connect & Oauth 2.0
 and how these two protocols are implemented in IdentityServer4 4.3.1 on ASP.NET Core 3.1
 
+## Prerequisites
+
+- Visual Studio 2019
+- ASP.NET Core 3.1
+
+## License
+
+[MIT License](LICENSE)
+
+Copyright (c) 2021 Felipe Romero
+
 ## Appendix
 
 ### How to manually set Kestrel's HTTPS configuration with a development certificate file
 
 1. Export ASP.NET Core's development certificate (that gets automatically created when you install .NET)
-to `%APPDATA%\ASP.NET\https\AuthorizationServer.pfx` (notice the filename is the same as your executing assembly.
+to `%APPDATA%\ASP.NET\https\AuthorizationServer.pfx` (notice the filename is the same as your executing assembly).
 Choose the option to also export the private key using the PFX file format and take note of the password.
 1. Add the following setting to your `appsettings.json` file. The password must match the password used for the certificate in the previous step.
 
-```json
-  "Kestrel": {
-    "Certificates": {
-      "Development": {
-        "Password": "12345"
+    ```json
+      "Kestrel": {
+        "Certificates": {
+          "Development": {
+            "Password": "12345"
+          }
+        }
       }
-    }
-  }
-```
+    ```
 
 ### Sources
 
