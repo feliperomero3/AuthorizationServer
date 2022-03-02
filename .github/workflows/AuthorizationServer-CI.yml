@@ -22,13 +22,13 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore src/AuthorizationServer.sln
     - name: Build
-      run: dotnet build --no-restore --configuration ${{CONFIGURATION}} --verbosity normal src/AuthorizationServer.sln
+      run: dotnet build --no-restore --configuration $CONFIGURATION --verbosity normal src/AuthorizationServer.sln
     - name: Test
-      run: dotnet test --no-build --configuration ${{CONFIGURATION}} --verbosity normal src/AuthorizationServer.sln
+      run: dotnet test --no-build --configuration $CONFIGURATION --verbosity normal src/AuthorizationServer.sln
     - name: Publish
       run: dotnet publish --no-build --configuration Release --verbosity normal src/AuthorizationServer.sln
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
         name: AuthorizationServer
-        path: src/bin/${{CONFIGURATION}}/netcoreapp3.1/publish
+        path: src/bin/$CONFIGURATION/netcoreapp3.1/publish
