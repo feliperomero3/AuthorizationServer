@@ -1,5 +1,7 @@
 # Authorization Server using IdentityServer4
 
+[![Build status][ci-badge]][ci-status]
+
 Authorization Server using IdentityServer4 4.3.1 on ASP.NET Core 3.1.
 
 This is my attempt at improving my understanding of modern authentication, that is, OpenID Connect & Oauth 2.0
@@ -41,3 +43,6 @@ I'm taking guidance from these two sources to implement IdentityServer4 with ASP
 
 - <https://www.scottbrady91.com/identity-server/getting-started-with-identityserver-4>
 - <https://social.technet.microsoft.com/wiki/contents/articles/37169.net-core-secure-your-web-applications-using-identityserver-4.aspx>
+
+[ci-status]: https://github.com/feliperomero3/AuthorizationServer/actions/workflows/AuthorizationServer-CI.yml
+[ci-badge]: https://github.com/feliperomero3/AuthorizationServer/actions/workflows/AuthorizationServer-CI.yml/badge.svg
