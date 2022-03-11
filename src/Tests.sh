@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 curl -vk https://localhost:5000/.well-known/openid-configuration
 
 curl -sk https://localhost:5000/.well-known/openid-configuration | jq .

@@ -17,7 +17,7 @@ namespace AuthorizationServer
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllersWithViews();
 
             services.AddIdentityServer()
                 .AddInMemoryClients(Clients.Get())
@@ -37,6 +37,8 @@ namespace AuthorizationServer
 
             app.UseHttpsRedirection();
 
+            app.UseStaticFiles();
+
             app.UseRouting();
 
             app.UseIdentityServer();
@@ -45,7 +47,7 @@ namespace AuthorizationServer
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapDefaultControllerRoute();
             });
         }
     }
