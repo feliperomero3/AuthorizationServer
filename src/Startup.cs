@@ -9,6 +9,8 @@ namespace AuthorizationServer
 {
     public class Startup
     {
+        public const string AssemblyName = "AuthorizationServer";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -24,12 +26,13 @@ namespace AuthorizationServer
                 .AddOperationalStore(options =>
                 {
                     options.ConfigureDbContext = builder => builder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
-                        sqlOptions => sqlOptions.MigrationsAssembly("AuthorizationServer"));
+                        sqlOptions => sqlOptions.MigrationsAssembly(AssemblyName));
                 })
-                .AddInMemoryClients(Clients.Get())
-                .AddInMemoryIdentityResources(Resources.GetIdentityResources())
-                .AddInMemoryApiResources(Resources.GetApiResources())
-                .AddInMemoryApiScopes(Resources.GetApiScopes())
+                .AddConfigurationStore(options =>
+                {
+                    options.ConfigureDbContext = builder => builder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                        sqlOptions => sqlOptions.MigrationsAssembly(AssemblyName));
+                })
                 .AddTestUsers(Users.Get())
                 .AddDeveloperSigningCredential();
         }
