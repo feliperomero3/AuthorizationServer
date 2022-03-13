@@ -41,8 +41,8 @@ Choose the option to also export the private key using the PFX file format and t
 
 I'm taking guidance from these two sources to implement IdentityServer4 with ASP.NET Core Identity.
 
-- <https://www.scottbrady91.com/identity-server/getting-started-with-identityserver-4>
-- <https://social.technet.microsoft.com/wiki/contents/articles/37169.net-core-secure-your-web-applications-using-identityserver-4.aspx>
+- [scottbrady91.com](https://www.scottbrady91.com/identity-server/getting-started-with-identityserver-4)
+- [technet.microsoft.com](https://social.technet.microsoft.com/wiki/contents/articles/37169.net-core-secure-your-web-applications-using-identityserver-4.aspx)
 
 [ci-status]: https://github.com/feliperomero3/AuthorizationServer/actions/workflows/AuthorizationServer-CI.yml
 [ci-badge]: https://github.com/feliperomero3/AuthorizationServer/actions/workflows/AuthorizationServer-CI.yml/badge.svg
