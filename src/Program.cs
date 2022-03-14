@@ -1,6 +1,7 @@
 using AuthorizationServer.Data;
 using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,7 +30,13 @@ namespace AuthorizationServer
 
                     configurationDb.Database.Migrate();
 
+                    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+                    var applicationDb = services.GetRequiredService<ApplicationDbContext>();
+
+                    applicationDb.Database.Migrate();
+
                     TestData.Seed(configurationDb);
+                    TestData.Seed(userManager);
                 }
                 catch (SqlException e)
                 {

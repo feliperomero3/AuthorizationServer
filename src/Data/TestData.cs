@@ -1,5 +1,6 @@
 ﻿using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Linq;
 
@@ -48,6 +49,23 @@ namespace AuthorizationServer.Data
                     context.ApiResources.Add(resource.ToEntity());
                 }
                 context.SaveChanges();
+            }
+        }
+
+        internal static void Seed(UserManager<IdentityUser> userManager)
+        {
+            if (!userManager.Users.Any())
+            {
+                foreach (var testUser in Users.Get())
+                {
+                    var identityUser = new IdentityUser(testUser.Username)
+                    {
+                        Id = testUser.SubjectId
+                    };
+
+                    userManager.CreateAsync(identityUser, "Password123!").Wait();
+                    userManager.AddClaimsAsync(identityUser, testUser.Claims.ToList()).Wait();
+                }
             }
         }
     }

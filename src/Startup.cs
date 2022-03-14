@@ -1,5 +1,7 @@
+using AuthorizationServer.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,7 +11,8 @@ namespace AuthorizationServer
 {
     public class Startup
     {
-        public const string AssemblyName = "AuthorizationServer";
+        protected const string AssemblyName = "AuthorizationServer";
+        protected const string ConnectionStringName = "DefaultConnection";
 
         public Startup(IConfiguration configuration)
         {
@@ -22,18 +25,27 @@ namespace AuthorizationServer
         {
             services.AddControllersWithViews();
 
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString(ConnectionStringName),
+                    sqlOptions => sqlOptions.MigrationsAssembly(AssemblyName));
+            });
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddIdentityServer()
                 .AddOperationalStore(options =>
                 {
-                    options.ConfigureDbContext = builder => builder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                    options.ConfigureDbContext = builder => builder.UseSqlServer(Configuration.GetConnectionString(ConnectionStringName),
                         sqlOptions => sqlOptions.MigrationsAssembly(AssemblyName));
                 })
                 .AddConfigurationStore(options =>
                 {
-                    options.ConfigureDbContext = builder => builder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                    options.ConfigureDbContext = builder => builder.UseSqlServer(Configuration.GetConnectionString(ConnectionStringName),
                         sqlOptions => sqlOptions.MigrationsAssembly(AssemblyName));
                 })
-                .AddTestUsers(Users.Get())
+                .AddAspNetIdentity<IdentityUser>()
                 .AddDeveloperSigningCredential();
         }
 
