@@ -1,7 +1,7 @@
 ﻿using IdentityServer4.Models;
 using System.Collections.Generic;
 
-namespace AuthorizationServer
+namespace AuthorizationServer.Data
 {
     internal class Clients
     {
