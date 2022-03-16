@@ -65,13 +65,13 @@ jobs:
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-      - name: Restore, build and analyze
+      - name: Analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"feliperomero3_AuthorizationServer" /o:"feliperomero3" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.exclusions=**/Data/Migrations/*,**/wwwroot/lib/*
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"feliperomero3_AuthorizationServer" /o:"feliperomero3" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.exclusions=**/Data/Migrations/**,**/wwwroot/lib/**
           dotnet restore --verbosity minimal src/AuthorizationServer.sln
           dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} --verbosity minimal src/AuthorizationServer.sln
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
