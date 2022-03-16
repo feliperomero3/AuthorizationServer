@@ -169,6 +169,7 @@ namespace IdentityServerHost.Quickstart.UI
             // create dummy internal account (you can do something more complex)
             var user = new IdentityUser(Guid.NewGuid().ToString());
             await _userManager.CreateAsync(user);
+            await _userManager.AddClaimsAsync(user, claims.ToList());
 
             // add external user ID to new account
             await _userManager.AddLoginAsync(user, new UserLoginInfo(provider, providerUserId, provider));
