@@ -1,18 +1,12 @@
 ﻿using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Identity;
-using System;
 using System.Linq;
 
 namespace AuthorizationServer.Data
 {
     internal class TestData
     {
-        internal static void Seed(PersistedGrantDbContext context)
-        {
-            throw new NotImplementedException();
-        }
-
         internal static void Seed(ConfigurationDbContext context)
         {
             if (!context.Clients.Any())
@@ -58,13 +52,15 @@ namespace AuthorizationServer.Data
             {
                 foreach (var testUser in Users.Get())
                 {
-                    var identityUser = new IdentityUser(testUser.Username)
+                    var user = new IdentityUser(testUser.Username)
                     {
-                        Id = testUser.SubjectId
+                        Id = testUser.SubjectId,
+                        Email = "alice@example.com",
+                        EmailConfirmed = true
                     };
 
-                    userManager.CreateAsync(identityUser, "Password123!").Wait();
-                    userManager.AddClaimsAsync(identityUser, testUser.Claims.ToList()).Wait();
+                    userManager.CreateAsync(user, "Password123!").Wait();
+                    userManager.AddClaimsAsync(user, testUser.Claims.ToList()).Wait();
                 }
             }
         }
