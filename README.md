@@ -12,11 +12,17 @@ and how these two protocols are implemented in IdentityServer4 4.1.2 on ASP.NET 
 - Visual Studio 2019
 - ASP.NET Core 3.1
 
+## Getting started
+
+1. Clone the project.
+1. Open the solution file `AuthorizationServer.sln` on Visual Studio.
+1. Press F5 to start the build and run the application.
+
 ## License
 
 [MIT License](LICENSE)
 
-Copyright &copy; 2021 Felipe Romero
+Copyright &copy; 2022 Felipe Romero
 
 ## Appendix
 
