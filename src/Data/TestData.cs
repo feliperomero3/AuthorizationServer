@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace AuthorizationServer.Data
 {
-    internal class TestData
+    public class TestData
     {
-        internal static void Seed(ConfigurationDbContext context)
+        public static void Seed(ConfigurationDbContext context)
         {
             if (!context.Clients.Any())
             {
@@ -46,7 +46,7 @@ namespace AuthorizationServer.Data
             }
         }
 
-        internal static void Seed(UserManager<IdentityUser> userManager)
+        public static void Seed(UserManager<IdentityUser> userManager)
         {
             if (!userManager.Users.Any())
             {
@@ -54,7 +54,7 @@ namespace AuthorizationServer.Data
                 {
                     var user = new IdentityUser(testUser.Username)
                     {
-                        Id = testUser.SubjectId,
+                        Id = "5be86359-073c-434b-ad2d-a3932222dabe",
                         Email = "alice@example.com",
                         EmailConfirmed = true
                     };
