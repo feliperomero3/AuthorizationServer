@@ -71,7 +71,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"feliperomero3_AuthorizationServer" /o:"feliperomero3" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.sources=src /d:sonar.exclusions=**/Data/Migrations/**,**/wwwroot/lib/** /d:sonar.tests=tests
-          dotnet restore --verbosity minimal src/AuthorizationServer.sln
-          dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} --verbosity minimal src/AuthorizationServer.sln
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"feliperomero3_AuthorizationServer" /o:"feliperomero3" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.sources=src /d:sonar.exclusions=**/Data/Migrations/**,**/wwwroot/lib/**
+          dotnet restore --verbosity minimal src/AuthorizationServer.csproj
+          dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} --verbosity minimal src/AuthorizationServer.csproj
+          dotnet test --no-build --configuration ${{ env.CONFIGURATION }} --verbosity normal --collect "Code coverage" --logger trx tests/AuthorizationServer.IntegrationTests/AuthorizationServer.IntegrationTests.csproj
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
