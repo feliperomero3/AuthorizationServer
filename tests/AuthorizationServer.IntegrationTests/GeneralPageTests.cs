@@ -17,12 +17,24 @@ namespace MoneySmart.IntegrationTests.Pages
             _factory.ClientOptions.BaseAddress = new Uri("https://localhost:5000/");
         }
 
-        [Fact]
-        public async Task Get_Home_Page_Returns_Success()
+        [Theory]
+        [InlineData("")]
+        [InlineData("Home")]
+        public async Task Get_Home_Page_Returns_Success(string path)
         {
             var client = _factory.CreateClient();
 
-            var response = await client.GetAsync(string.Empty);
+            var response = await client.GetAsync(path);
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task Get_Error_Page_Returns_Success()
+        {
+            var client = _factory.CreateClient();
+
+            var response = await client.GetAsync("Home/Error");
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
