@@ -1,7 +1,10 @@
-﻿using IdentityServer4.EntityFramework.DbContexts;
+﻿using IdentityModel;
+using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 
 namespace AuthorizationServer.Data
 {
@@ -50,18 +53,19 @@ namespace AuthorizationServer.Data
         {
             if (!userManager.Users.Any())
             {
-                foreach (var testUser in Users.Get())
+                var user = new IdentityUser("alice")
                 {
-                    var user = new IdentityUser(testUser.Username)
-                    {
-                        Id = "5be86359-073c-434b-ad2d-a3932222dabe",
-                        Email = "alice@example.com",
-                        EmailConfirmed = true
-                    };
+                    Id = "5be86359-073c-434b-ad2d-a3932222dabe",
+                    Email = "alice@example.com",
+                    EmailConfirmed = true
+                };
 
-                    userManager.CreateAsync(user, "Password123!").Wait();
-                    userManager.AddClaimsAsync(user, testUser.Claims.ToList()).Wait();
-                }
+                userManager.CreateAsync(user, "Password123!").Wait();
+                userManager.AddClaimsAsync(user, new List<Claim>
+                    {
+                        new Claim(JwtClaimTypes.Email, "alice@example.com"),
+                        new Claim(JwtClaimTypes.Role, "admin")
+                    }).Wait();
             }
         }
     }
