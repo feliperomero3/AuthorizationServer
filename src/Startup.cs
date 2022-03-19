@@ -54,6 +54,7 @@ namespace AuthorizationServer
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
 
             app.UseHttpsRedirection();
