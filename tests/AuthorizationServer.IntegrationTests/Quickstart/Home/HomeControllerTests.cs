@@ -1,16 +1,16 @@
-﻿using AuthorizationServer;
+﻿using MoneySmart.IntegrationTests;
 using System;
 using System.Net;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace MoneySmart.IntegrationTests.Pages
+namespace AuthorizationServer.IntegrationTests.Quickstart.Home
 {
-    public class GeneralPageTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class HomeControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly CustomWebApplicationFactory<Startup> _factory;
 
-        public GeneralPageTests(CustomWebApplicationFactory<Startup> factory)
+        public HomeControllerTests(CustomWebApplicationFactory<Startup> factory)
         {
             _factory = factory;
             _factory.ClientOptions.AllowAutoRedirect = false;
