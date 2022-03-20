@@ -34,19 +34,25 @@ namespace AuthorizationServer
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddIdentityServer()
-                .AddOperationalStore(options =>
-                {
-                    options.ConfigureDbContext = builder => builder.UseSqlServer(Configuration.GetConnectionString(ConnectionStringName),
-                        sqlOptions => sqlOptions.MigrationsAssembly(AssemblyName));
-                })
-                .AddConfigurationStore(options =>
-                {
-                    options.ConfigureDbContext = builder => builder.UseSqlServer(Configuration.GetConnectionString(ConnectionStringName),
-                        sqlOptions => sqlOptions.MigrationsAssembly(AssemblyName));
-                })
-                .AddAspNetIdentity<IdentityUser>()
-                .AddDeveloperSigningCredential();
+            services.AddIdentityServer(options =>
+            {
+                options.Events.RaiseErrorEvents = true;
+                options.Events.RaiseInformationEvents = true;
+                options.Events.RaiseFailureEvents = true;
+                options.Events.RaiseSuccessEvents = true;
+            })
+            .AddOperationalStore(options =>
+            {
+                options.ConfigureDbContext = builder => builder.UseSqlServer(Configuration.GetConnectionString(ConnectionStringName),
+                    sqlOptions => sqlOptions.MigrationsAssembly(AssemblyName));
+            })
+            .AddConfigurationStore(options =>
+            {
+                options.ConfigureDbContext = builder => builder.UseSqlServer(Configuration.GetConnectionString(ConnectionStringName),
+                    sqlOptions => sqlOptions.MigrationsAssembly(AssemblyName));
+            })
+            .AddAspNetIdentity<IdentityUser>()
+            .AddDeveloperSigningCredential();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
