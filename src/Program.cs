@@ -6,7 +6,8 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
 
 namespace AuthorizationServer
 {
@@ -14,6 +15,17 @@ namespace AuthorizationServer
     {
         public static void Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning)
+                .MinimumLevel.Override("Microsoft.AspNetCore.StaticFiles", LogEventLevel.Warning)
+                .MinimumLevel.Override("Microsoft.AspNetCore.DataProtection", LogEventLevel.Information)
+                .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Information)
+                .MinimumLevel.Override("Microsoft.Extensions.Http", LogEventLevel.Information)
+                .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Information)
+                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}")
+                .CreateLogger();
+
             var host = CreateHostBuilder(args).Build();
 
             using (var scope = host.Services.CreateScope())
@@ -22,6 +34,8 @@ namespace AuthorizationServer
 
                 try
                 {
+                    Log.Information("Seeding database...");
+
                     var grantsDb = services.GetRequiredService<PersistedGrantDbContext>();
 
                     grantsDb.Database.Migrate();
@@ -37,22 +51,27 @@ namespace AuthorizationServer
 
                     TestData.Seed(configurationDb);
                     TestData.Seed(userManager);
+
+                    Log.Information("Done seeding database.");
                 }
                 catch (SqlException e)
                 {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    Log.Error(e, "An error occurred creating the Database.");
 
-                    logger.LogError(e, "An error occurred creating the Database.");
+                    Log.CloseAndFlush();
 
                     throw;
                 }
             }
+
+            Log.Information("Starting web host.");
 
             host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
