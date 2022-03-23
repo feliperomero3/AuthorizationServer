@@ -24,6 +24,7 @@ namespace AuthorizationServer
                 .MinimumLevel.Override("Microsoft.Extensions.Http", LogEventLevel.Information)
                 .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Information)
                 .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}")
+                .WriteTo.Debug()
                 .CreateLogger();
 
             var host = CreateHostBuilder(args).Build();
