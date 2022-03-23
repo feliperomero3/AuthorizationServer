@@ -9,10 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using MoneySmart.IntegrationTests.Helpers;
 using System.IO;
 
-namespace MoneySmart.IntegrationTests
+namespace AuthorizationServer.IntegrationTests
 {
     public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {

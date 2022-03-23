@@ -1,5 +1,4 @@
-﻿using MoneySmart.IntegrationTests;
-using System;
+﻿using System;
 using System.Net;
 using System.Threading.Tasks;
 using Xunit;
