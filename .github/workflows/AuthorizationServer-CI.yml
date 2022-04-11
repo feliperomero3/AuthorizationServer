@@ -53,15 +53,15 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"feliperomero3_AuthorizationServer" /o:"feliperomero3" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.exclusions=**/Data/Migrations/**,**/wwwroot/lib/** /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"feliperomero3_AuthorizationServer" /o:"feliperomero3" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.exclusions=**\Data\Migrations\**,**\wwwroot\lib\** /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
       - name: Restore dependencies
-        run: dotnet restore --verbosity minimal src/AuthorizationServer.sln
+        run: dotnet restore --verbosity minimal src\AuthorizationServer.sln
       - name: Build
-        run: dotnet build --no-restore  --configuration ${{ env.CONFIGURATION }} --verbosity minimal src/AuthorizationServer.sln
+        run: dotnet build --no-restore  --configuration ${{ env.CONFIGURATION }} --verbosity minimal src\AuthorizationServer.sln
       - name: Test
-        run: dotnet-coverage collect -f xml -o coverage.xml 'dotnet test --configuration ${{ env.CONFIGURATION }} --verbosity minimal src/AuthorizationServer.sln'
+        run: dotnet-coverage collect -f xml -o coverage.xml 'dotnet test --configuration ${{ env.CONFIGURATION }} --verbosity minimal src\AuthorizationServer.sln'
       - name: Publish
-        run: dotnet publish --no-build --configuration ${{ env.CONFIGURATION }} --verbosity minimal src/AuthorizationServer.csproj
+        run: dotnet publish --no-build --configuration ${{ env.CONFIGURATION }} --verbosity minimal src\AuthorizationServer.csproj
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
