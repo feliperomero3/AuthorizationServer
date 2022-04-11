@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 using System.IO;
@@ -58,9 +57,7 @@ namespace AuthorizationServer.IntegrationTests
                 }
                 catch (SqlException sqlException)
                 {
-                    var logger = provider.GetRequiredService<ILogger<CustomWebApplicationFactory<TStartup>>>();
-
-                    logger.LogError(sqlException, "An error occurred creating the test database.");
+                    Log.Error(sqlException, "An error occurred creating the test database.");
 
                     throw;
                 }
