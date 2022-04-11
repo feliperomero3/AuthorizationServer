@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
 using System.IO;
 
 namespace AuthorizationServer.IntegrationTests
@@ -17,6 +19,17 @@ namespace AuthorizationServer.IntegrationTests
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning)
+                .MinimumLevel.Override("Microsoft.AspNetCore.StaticFiles", LogEventLevel.Warning)
+                .MinimumLevel.Override("Microsoft.AspNetCore.DataProtection", LogEventLevel.Information)
+                .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Information)
+                .MinimumLevel.Override("Microsoft.Extensions.Http", LogEventLevel.Information)
+                .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Information)
+                .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}")
+                .CreateLogger();
+
             var projectDir = Directory.GetCurrentDirectory();
             var configPath = Path.Combine(projectDir, "appsettings.json");
 
