@@ -17,7 +17,7 @@ namespace AuthorizationServer.IntegrationTests
         }
 
         [Fact()]
-        public async Task IndexTestAsync()
+        public async Task Get_Consent_Page_Returns_Success()
         {
             var client = _factory.CreateClientWithAuthenticatedUser();
 
