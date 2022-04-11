@@ -1,4 +1,5 @@
 {
 	"shadowCopy": true,
-	"diagnosticMessages": true
+	"diagnosticMessages": true,
+	"parallelizeTestCollections": false
 }
