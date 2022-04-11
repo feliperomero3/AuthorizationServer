@@ -1,3 +1,4 @@
 {
-	"shadowCopy": false
+	"shadowCopy": true,
+	"diagnosticMessages": true
 }
