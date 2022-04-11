@@ -10,20 +10,22 @@ namespace AuthorizationServer.IntegrationTests
         private static readonly object _lock = new object();
         private static bool _databaseInitialized;
 
-        public static void SeedTestDatabase(ApplicationDbContext context, ConfigurationDbContext configurationDb, UserManager<IdentityUser> userManager)
+        public static void SeedTestDatabase(ApplicationDbContext applicationDb, PersistedGrantDbContext grantsDb, ConfigurationDbContext configurationDb, UserManager<IdentityUser> userManager)
         {
             lock (_lock)
             {
                 if (!_databaseInitialized)
                 {
-                    context.Database.Migrate();
+                    applicationDb.Database.Migrate();
+                    grantsDb.Database.Migrate();
                     configurationDb.Database.Migrate();
 
                     TestData.Seed(configurationDb);
                     TestData.Seed(userManager);
 
+                    grantsDb.SaveChanges();
                     configurationDb.SaveChanges();
-                    context.SaveChanges();
+                    applicationDb.SaveChanges();
 
                     _databaseInitialized = true;
                 }

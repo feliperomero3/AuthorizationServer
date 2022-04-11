@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -48,20 +47,14 @@ namespace AuthorizationServer.IntegrationTests
 
                 var provider = scope.ServiceProvider;
 
-                var context = provider.GetRequiredService<ApplicationDbContext>();
+                var userManager = provider.GetRequiredService<UserManager<IdentityUser>>();
+                var applicationDb = provider.GetRequiredService<ApplicationDbContext>();
+                var grantsDb = provider.GetRequiredService<PersistedGrantDbContext>();
+                var configurationDb = provider.GetRequiredService<ConfigurationDbContext>();
 
                 try
                 {
-                    var grantsDb = provider.GetRequiredService<PersistedGrantDbContext>();
-
-                    grantsDb.Database.Migrate();
-
-                    var configurationDb = provider.GetRequiredService<ConfigurationDbContext>();
-
-                    var userManager = provider.GetRequiredService<UserManager<IdentityUser>>();
-                    var applicationDb = provider.GetRequiredService<ApplicationDbContext>();
-
-                    DatabaseHelper.SeedTestDatabase(context, configurationDb, userManager);
+                    DatabaseHelper.SeedTestDatabase(applicationDb, grantsDb, configurationDb, userManager);
                 }
                 catch (SqlException sqlException)
                 {
