@@ -62,11 +62,6 @@ jobs:
         run: dotnet-coverage collect -f xml -o coverage.xml 'dotnet test --no-build --configuration ${{ env.CONFIGURATION }} --verbosity normal src\AuthorizationServer.sln'
       - name: Publish
         run: dotnet publish --no-build --configuration ${{ env.CONFIGURATION }} --verbosity minimal src\AuthorizationServer.csproj
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: AuthorizationServer
-          path: src/bin/${{ env.CONFIGURATION }}/netcoreapp3.1/publish
       - name: SonarCloud - Analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -79,3 +74,8 @@ jobs:
         with:
           name: AuthorizationServer
           path: src/bin/${{ env.CONFIGURATION }}/netcoreapp3.1/publish
+      - name: Upload test coverage results
+        uses: actions/upload-artifact@v2
+        with:
+          name: AuthorizationServer.Coverage
+          path: coverage.xml
