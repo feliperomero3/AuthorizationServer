@@ -23,9 +23,9 @@ namespace AuthorizationServer.IntegrationTests
                     TestData.Seed(configurationDb);
                     TestData.Seed(userManager);
 
+                    applicationDb.SaveChanges();
                     grantsDb.SaveChanges();
                     configurationDb.SaveChanges();
-                    applicationDb.SaveChanges();
 
                     _databaseInitialized = true;
                 }
