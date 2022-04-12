@@ -17,7 +17,7 @@ namespace AuthorizationServer.IntegrationTests
         }
 
         [Fact]
-        public async Task Get_Login_Page_Returns_SuccessAsync()
+        public async Task Get_Login_Page_Returns_Success()
         {
             var client = _factory.CreateClient();
 
@@ -27,7 +27,7 @@ namespace AuthorizationServer.IntegrationTests
         }
 
         [Fact]
-        public async Task Get_Logout_Page_Returns_SuccessAsync()
+        public async Task Get_Logout_Page_Returns_Success()
         {
             var client = _factory.CreateClient();
 
