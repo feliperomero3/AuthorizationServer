@@ -3,7 +3,6 @@
 
 
 using IdentityModel;
-using IdentityServer4;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
@@ -114,30 +113,10 @@ namespace IdentityServerHost.Quickstart.UI
                 var user = await _signInManager.UserManager.FindByNameAsync(model.Username);
 
                 // validate username/password against ASP.NET Core Identity store
-                if (user != null && (await _signInManager.CheckPasswordSignInAsync(user, model.Password, lockoutOnFailure: false) == SignInResult.Success))
+                if (user != null && (await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberLogin, lockoutOnFailure: false) == SignInResult.Success))
                 {
                     await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName, clientId: context?.Client.ClientId));
                     _logger.LogInformation("User logged in.");
-
-                    // only set explicit expiration here if user chooses "remember me". 
-                    // otherwise we rely upon expiration configured in cookie middleware.
-                    AuthenticationProperties props = null;
-                    if (AccountOptions.AllowRememberLogin && model.RememberLogin)
-                    {
-                        props = new AuthenticationProperties
-                        {
-                            IsPersistent = true,
-                            ExpiresUtc = DateTimeOffset.UtcNow.Add(AccountOptions.RememberMeLoginDuration)
-                        };
-                    };
-
-                    // issue authentication cookie with subject ID and username
-                    var isuser = new IdentityServerUser(user.Id)
-                    {
-                        DisplayName = user.UserName
-                    };
-
-                    await HttpContext.SignInAsync(isuser, props);
 
                     if (context != null)
                     {
