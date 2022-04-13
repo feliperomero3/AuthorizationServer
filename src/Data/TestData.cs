@@ -63,6 +63,9 @@ namespace AuthorizationServer.Data
                 userManager.CreateAsync(user, "Password123!").Wait();
                 userManager.AddClaimsAsync(user, new List<Claim>
                     {
+                        new Claim(JwtClaimTypes.Name, "Alice Smith"),
+                        new Claim(JwtClaimTypes.GivenName, "Alice"),
+                        new Claim(JwtClaimTypes.FamilyName, "Smith"),
                         new Claim(JwtClaimTypes.Email, "alice@example.com"),
                         new Claim(JwtClaimTypes.Role, "admin")
                     }).Wait();
