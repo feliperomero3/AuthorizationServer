@@ -50,8 +50,8 @@ namespace AuthorizationServer
 
                     applicationDb.Database.Migrate();
 
-                    TestData.Seed(configurationDb);
-                    TestData.Seed(userManager);
+                    SeedData.Seed(configurationDb);
+                    SeedData.Seed(userManager);
 
                     Log.Information("Done seeding database.");
                 }

@@ -20,8 +20,8 @@ namespace AuthorizationServer.IntegrationTests
                     grantsDb.Database.Migrate();
                     configurationDb.Database.Migrate();
 
-                    TestData.Seed(configurationDb);
-                    TestData.Seed(userManager);
+                    SeedData.Seed(configurationDb);
+                    SeedData.Seed(userManager);
 
                     applicationDb.SaveChanges();
                     grantsDb.SaveChanges();

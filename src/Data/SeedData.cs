@@ -8,7 +8,7 @@ using System.Security.Claims;
 
 namespace AuthorizationServer.Data
 {
-    public class TestData
+    public class SeedData
     {
         public static void Seed(ConfigurationDbContext context)
         {
