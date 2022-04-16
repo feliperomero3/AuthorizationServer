@@ -56,7 +56,7 @@ jobs:
       - name: Build
         run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} --verbosity minimal src\AuthorizationServer.sln
       - name: Test
-        run: dotnet test --verbosity minimal --configuration ${{ env.CONFIGURATION }} --collect:"XPlat Code Coverage" --results-directory .\TestResults .\tests\AuthorizationServer.IntegrationTests\AuthorizationServer.IntegrationTests.csproj
+        run: dotnet test --verbosity minimal --configuration ${{ env.CONFIGURATION }} --collect:"XPlat Code Coverage" --results-directory .\TestResults --settings .\tests\AuthorizationServer.IntegrationTests\coverlet.runsettings .\tests\AuthorizationServer.IntegrationTests\AuthorizationServer.IntegrationTests.csproj
       - name: Publish
         run: dotnet publish --no-build --configuration ${{ env.CONFIGURATION }} --verbosity minimal src\AuthorizationServer.csproj
       - name: SonarCloud - Analyze
