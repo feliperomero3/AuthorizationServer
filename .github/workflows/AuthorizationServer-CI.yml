@@ -50,7 +50,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"feliperomero3_AuthorizationServer" /o:"feliperomero3" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.exclusions=**\Data\Migrations\**,**\wwwroot\lib\** /d:sonar.cs.vscoveragexml.reportsPaths=.\TestResults\**\coverage.*.xml
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"feliperomero3_AuthorizationServer" /o:"feliperomero3" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.exclusions=**\Data\Migrations\**,**\wwwroot\lib\** /d:sonar.cs.opencover.reportsPaths=.\TestResults\**\coverage.opencover.xml
       - name: Restore dependencies
         run: dotnet restore --verbosity minimal src\AuthorizationServer.sln
       - name: Build
@@ -75,4 +75,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: AuthorizationServer.Coverage
-          path: .\TestResults\**\coverage.*.xml
+          path: .\TestResults
