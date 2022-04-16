@@ -21,9 +21,6 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 3.1.x
-      - name: Install dotnet-coverage utility
-        shell: powershell
-        run: dotnet tool install --global dotnet-coverage
       - name: Set up JDK 11
         uses: actions/setup-java@v1
         with:
@@ -53,13 +50,13 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"feliperomero3_AuthorizationServer" /o:"feliperomero3" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.exclusions=**\Data\Migrations\**,**\wwwroot\lib\** /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"feliperomero3_AuthorizationServer" /o:"feliperomero3" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.exclusions=**\Data\Migrations\**,**\wwwroot\lib\** /d:sonar.cs.vscoveragexml.reportsPaths=coverage.cobertura.xml
       - name: Restore dependencies
         run: dotnet restore --verbosity minimal src\AuthorizationServer.sln
       - name: Build
         run: dotnet build --no-restore --configuration ${{ env.CONFIGURATION }} --verbosity minimal src\AuthorizationServer.sln
       - name: Test
-        run: dotnet-coverage collect -f xml -o coverage.xml 'dotnet test --no-build --configuration ${{ env.CONFIGURATION }} --verbosity normal src\AuthorizationServer.sln'
+        run: dotnet test --verbosity minimal --configuration ${{ env.CONFIGURATION }} --collect:"XPlat Code Coverage" --results-directory .\TestResults .\tests\AuthorizationServer.IntegrationTests\AuthorizationServer.IntegrationTests.csproj
       - name: Publish
         run: dotnet publish --no-build --configuration ${{ env.CONFIGURATION }} --verbosity minimal src\AuthorizationServer.csproj
       - name: SonarCloud - Analyze
@@ -78,4 +75,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: AuthorizationServer.Coverage
-          path: coverage.xml
+          path: coverage.cobertura.xml
