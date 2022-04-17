@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AuthorizationServer.Data
 {
-    internal class Resources
+    internal static class Resources
     {
         public static IEnumerable<IdentityResource> GetIdentityResources()
         {

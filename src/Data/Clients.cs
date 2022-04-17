@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AuthorizationServer.Data
 {
-    internal class Clients
+    internal static class Clients
     {
         public static IEnumerable<Client> Get()
         {
