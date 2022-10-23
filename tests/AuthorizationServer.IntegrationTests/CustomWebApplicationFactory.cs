@@ -25,7 +25,7 @@ namespace AuthorizationServer.IntegrationTests
                 .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Information)
                 .MinimumLevel.Override("Microsoft.Extensions.Http", LogEventLevel.Information)
                 .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Information)
-                .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}")
+                .WriteTo.Debug(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext} {Message:jl}{NewLine}{Exception}")
                 .CreateLogger();
 
             var projectDir = Directory.GetCurrentDirectory();
