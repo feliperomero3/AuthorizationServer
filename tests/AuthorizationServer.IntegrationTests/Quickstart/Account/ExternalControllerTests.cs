@@ -25,5 +25,15 @@ namespace AuthorizationServer.IntegrationTests.Account
 
             Assert.Equal(HttpStatusCode.Redirect, response.StatusCode);
         }
+
+        [Fact()]
+        public async Task Callback_Returns_Error_When_Unauthenticated_Request()
+        {
+            var client = _factory.CreateClient();
+
+            var response = await client.GetAsync("Callback");
+
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
     }
 }
