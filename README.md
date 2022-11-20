@@ -9,7 +9,7 @@ and how these two protocols are implemented in IdentityServer4 4.1.2 on ASP.NET 
 
 ## Prerequisites
 
-- Visual Studio 2019
+- Visual Studio 2019 or greater
 - ASP.NET Core 3.1
 
 ## Getting started
