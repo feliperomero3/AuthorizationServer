@@ -53,6 +53,17 @@ namespace AuthorizationServer
             })
             .AddAspNetIdentity<IdentityUser>()
             .AddDeveloperSigningCredential();
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.WithOrigins("https://localhost:4000")
+                        .WithOrigins("http://localhost:4000")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -68,6 +79,8 @@ namespace AuthorizationServer
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseIdentityServer();
 
