@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using IdentityServer4;
 using IdentityServer4.Models;
 
 namespace AuthorizationServer.Data
@@ -25,7 +26,11 @@ namespace AuthorizationServer.Data
                     RedirectUris = { "http://localhost:4000/callback.html" },
                     PostLogoutRedirectUris = { "http://localhost:4000/index.html" },
                     AllowedCorsOrigins = {"http://localhost:4000"},
-                    AllowedScopes = { "openid", "profile" }
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    }
                 },
             };
         }
